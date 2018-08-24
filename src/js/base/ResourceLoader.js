@@ -5,7 +5,6 @@ export class ResourceLoader {
     this.res = new Resource().imgList
 
     this.map = new Map(this.res)
-
     for(let [key,value] of this.map){
       const img = new Image()
       img.src = value

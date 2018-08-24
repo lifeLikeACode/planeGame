@@ -6,6 +6,6 @@ base.devServer = {
   port: '8989',
   inline: true,
   hot: true,
-  open: true
+  open: false
 }
 module.exports = base ;
