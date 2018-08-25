@@ -15,7 +15,7 @@ export class Enemies extends Sprite{
           image.width / scale,-image.height / scale
         )
     this.speedScale = Math.random() * (8 - 3) + 3
-    this.speedMove = 3
+    this.speedMove = this.speedScale 
     this.moveY = 0
     
   }
@@ -23,7 +23,7 @@ export class Enemies extends Sprite{
   border() {
     return {
       left: this.cX,
-      right: this.cX + this.cWidth / 2,
+      right: this.cX + this.cWidth,
       top: this.moveY,
       bottom:this.moveY + this.cHeight,
     }

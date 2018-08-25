@@ -9,12 +9,6 @@ export class Camera {
     this.isGameOver = false
     this.rafId = null
     this.dataStore  = DataStore.getInstance()
-    // this.wallBorder = {
-    //   left: 0,
-    //   right : window.innerWidth,
-    //   top: 0,
-    //   bottom: window.innerHeight
-    // }
     this.frame = 0
   }
 
@@ -45,7 +39,7 @@ export class Camera {
     if(heroBorder.left + hero.cWidth / 2 <= wallBorder.left ){
       hero.cX = wallBorder.left - hero.cWidth / 2
     }
-    if(heroBorder.right >= wallBorder.right ){
+    if(heroBorder.right - hero.cWidth / 2  >= wallBorder.right ){
       hero.cX = wallBorder.right - hero.cWidth / 2
     }
     if(heroBorder.top <= wallBorder.top ){
@@ -69,7 +63,26 @@ export class Camera {
       }
     }
   }
+  enemiesCollisionHero(){
+    const hero = this.dataStore.get('hero')
+    
+    const heroBorder = hero.border()
 
+    const enemies = this.dataStore.get('enemies')
+
+    for(let j = 0; j<enemies.length;j++) {
+      const enemy = enemies[j]
+      const enemyBorder = enemy.border()
+      if(enemyBorder.right >= heroBorder.left &&
+        enemyBorder.left <= heroBorder.right &&
+        enemyBorder.top <= heroBorder.bottom &&
+        enemyBorder.bottom >= heroBorder.top
+      )
+      {
+        this.isGameOver = true
+      }
+    }
+  }
   bulletCollisionEnemies() {
     const enemies = this.dataStore.get('enemies')
     const bullets = this.dataStore.get('bullets')
@@ -79,9 +92,14 @@ export class Camera {
       for(let j = 0; j<enemies.length;j++) {
         const enemy = enemies[j]
         const enemyBorder = enemy.border()
-        if(bullet.right >= enemy.left ){
-          bullets.splice(i,1)
+        if(bulletBorder.right >= enemyBorder.left &&
+           bulletBorder.left <= enemyBorder.right &&
+           bulletBorder.top <= enemyBorder.bottom 
+        )
+        {
           enemies.splice(j,1)
+          bullets.splice(i,1)
+          break
         }
       }
     }
@@ -89,8 +107,9 @@ export class Camera {
   
   check() {
     this.enemiesCollisionWall()
-    //this.bulletCollisionEnemies()
+    this.bulletCollisionEnemies()
     this.bulletCollisionWall()
+    this.enemiesCollisionHero()
   }
   createBullet() {
     this.dataStore.get('bullets').push(new Bullets())
@@ -102,33 +121,35 @@ export class Camera {
   }
 
   run() {
-    this.frame ++
-    const background = this.dataStore.get('background')
-    //const heroBorder = hero.border()
-    const wallBorder = background.border()
-    const bullets = this.dataStore.get('bullets')
-    const enemies = this.dataStore.get('enemies')
+    if(this.isGameOver){
+      cancelAnimationFrame(this.rafId)
 
-    
-    background.draw()
-    if(this.frame % 20 === 0){
-      this.createBullet()
+    }else{
+      this.frame ++
+      const background = this.dataStore.get('background')
+      const bullets = this.dataStore.get('bullets')
+      const enemies = this.dataStore.get('enemies')
+
       
-    }
-    if(this.frame % 40 === 0){
-      this.createEnemies()
-    }
-    enemies.forEach((enemy) => {
-      enemy.draw()
-    })
-    bullets.forEach((bullet) => {
-      bullet.draw()
-    })
-    
-    this.dataStore.get('hero').draw()
+      background.draw()
+      if(this.frame % 20 === 0){
+        this.createBullet()
+      }
+      if(this.frame % 30 === 0){
+        this.createEnemies()
+      }
+      enemies.forEach((enemy) => {
+        enemy.draw()
+      })
+      bullets.forEach((bullet) => {
+        bullet.draw()
+      })
+      
+      this.dataStore.get('hero').draw()
 
 
-    this.check()
-    this.rafId = requestAnimationFrame(() => {this.run()})
+      this.check()
+      this.rafId = requestAnimationFrame(() => {this.run()})
+    }
   }
 }

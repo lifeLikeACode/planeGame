@@ -1,4 +1,4 @@
 import './css/reset.styl'
-import {Main} from './js/Main.js'
+import {Main} from './js/Main'
 
   new Main()

@@ -27,7 +27,7 @@ export class Hero extends Sprite{
   border() {
     return {
       left: this.cX,
-      right: this.cX + this.cWidth / 2,
+      right: this.cX + this.cWidth,
       top: this.cY,
       bottom:this.cY + this.cHeight,
     }

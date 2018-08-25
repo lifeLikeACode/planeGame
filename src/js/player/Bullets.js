@@ -22,7 +22,7 @@ export class Bullets extends Sprite{
   border() {
     return {
       left: this.cX,
-      right: this.cX + this.cWidth / 2,
+      right: this.cX + this.cWidth,
       top: this.bulletFireY,
       bottom:this.bulletFireY + this.cHeight,
     }

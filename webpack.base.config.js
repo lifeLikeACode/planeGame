@@ -24,6 +24,7 @@ const base = {
         include:path.join(__dirname,'./src'),
         exclude:/node_modules/
       },
+      
       {
         test: /\.(styl|stylus)$/,
         use:[
@@ -40,7 +41,16 @@ const base = {
       {
         test: /\.(jpg|jpeg|png|gif)$/,
         loader: 'url-loader'
-      }
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+        }
+      },
+      
     ]
   },
   // optimization:{
