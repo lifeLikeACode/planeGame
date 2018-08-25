@@ -38,7 +38,7 @@ export class Canvas {
       this.hero.cX = e.targetTouches[0].clientX - this.hero.cWidth / 2
       this.hero.cY = e.targetTouches[0].clientY - this.hero.cHeight / 2
     }
-    Camera.getInstance().collision() 
+    Camera.getInstance().heroCollisionWall() 
   }
 
   touchEnd(e){

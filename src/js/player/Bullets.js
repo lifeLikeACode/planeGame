@@ -19,6 +19,15 @@ export class Bullets extends Sprite{
     this.bulletFireY = bulletY
   }
 
+  border() {
+    return {
+      left: this.cX,
+      right: this.cX + this.cWidth / 2,
+      top: this.bulletFireY,
+      bottom:this.bulletFireY + this.cHeight,
+    }
+  }
+
   draw(){
     this.bulletFireY -= this.speedMove
 

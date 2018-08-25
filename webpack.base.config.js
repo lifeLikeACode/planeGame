@@ -1,8 +1,8 @@
 const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require("html-webpack-plugin")
-const cleanWebpackPlugin = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('C:/Users/pc/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/webpack')
+const HtmlWebpackPlugin = require("C:/Users/pc/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/html-webpack-plugin")
+const cleanWebpackPlugin = require('C:/Users/pc/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/clean-webpack-plugin')
+const MiniCssExtractPlugin = require('C:/Users/pc/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/mini-css-extract-plugin')
 const base = {
   entry: path.resolve(__dirname, './src/index.js'),
   output: {

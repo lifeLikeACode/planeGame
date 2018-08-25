@@ -5,7 +5,7 @@ export class Hero extends Sprite{
   constructor() {
     const image = Sprite.getImage('hero')
     //飞机在屏幕中的缩放比例
-    const scale = 4
+    const scale = 3
 
     super(image,
           0,0,
@@ -16,14 +16,22 @@ export class Hero extends Sprite{
 
     this.isTouchHero = false
 
-    this.heroBorder = {
+    // this.heroBorder = {
+    //   left: this.cX,
+    //   right: this.cX + this.cWidth,
+    //   top: this.cY,
+    //   bottom:this.cY + this.cHeight,
+    // }
+    console.log(this.cY)
+  }
+  border() {
+    return {
       left: this.cX,
-      right: this.cX + this.cWidth,
+      right: this.cX + this.cWidth / 2,
       top: this.cY,
       bottom:this.cY + this.cHeight,
     }
   }
-
   //手指是否接触在飞机上
   isTouchingIn(x,y) {
     const hero = DataStore.getInstance().get('hero')
@@ -39,6 +47,7 @@ export class Hero extends Sprite{
     console.log(this.isTouchHero)
   }
 
+  
   //飞机驶入游戏界面
   flying() {
 

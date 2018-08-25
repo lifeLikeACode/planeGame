@@ -8,6 +8,15 @@ export class BackGround extends Sprite{
     this.speedMove = 1
   }
 
+  border() {
+    return {
+      left: 0,
+      right : window.innerWidth,
+      top: 0,
+      bottom: window.innerHeight
+    }
+  }
+
   draw() {
     this.backgroundY += this.speedMove
     if(this.backgroundY >= this.cHeight){

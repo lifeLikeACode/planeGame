@@ -32,7 +32,8 @@ export class Main {
 
   //初始化游戏
   init() {
-    this.dataStore.put('background', BackGround).put('hero', Hero).put('bullets',[])
+    this.dataStore.put('background', BackGround).put('hero', Hero).put('bullets',[]).put('enemies',[])
+    
     this.camera.run()
     this.bindEvent()
   }
