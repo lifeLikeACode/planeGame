@@ -1,7 +1,9 @@
 import { DataStore } from "./base/DataStore";
 import { Bullets } from "./player/Bullets";
 import { Enemies } from "./player/Enemies";
-
+import { BackGroundMusic } from "./runtime/BackgroundMusic.js";
+import bulletMusic from '../audio/bullet.mp3'
+import boomAudio from '../audio/boom.mp3'
 //控制游戏逻辑的函数
 export class Camera {
   constructor() {
@@ -10,6 +12,8 @@ export class Camera {
     this.rafId = null
     this.dataStore  = DataStore.getInstance()
     this.frame = 0
+    this.bulletAudio = new BackGroundMusic(bulletMusic)
+    this.boomAudio = new BackGroundMusic(boomAudio)
   }
 
   static getInstance() {
@@ -59,7 +63,6 @@ export class Camera {
       const enemyBorder = enemy.border()
       if(enemyBorder.bottom > wallBorder.bottom){
         enemies.splice(i,1)
-        console.log(enemies.length)
       }
     }
   }
@@ -99,6 +102,7 @@ export class Camera {
         {
           enemies.splice(j,1)
           bullets.splice(i,1)
+          this.boomAudio.shootPlay()
           break
         }
       }
@@ -134,6 +138,7 @@ export class Camera {
       background.draw()
       if(this.frame % 20 === 0){
         this.createBullet()
+        this.bulletAudio.shootPlay()
       }
       if(this.frame % 30 === 0){
         this.createEnemies()

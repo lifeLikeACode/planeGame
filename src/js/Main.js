@@ -4,8 +4,8 @@ import {DataStore} from './base/DataStore.js'
 import { Camera } from "./Camera.js";
 import { BackGround } from "./runtime/BackGround.js";
 import { Hero } from "./player/Hero.js";
-// import { BackGroundMusic } from "./runtime/BackgroundMusic.js";
-// import bgm from '../audio/bgm.mp3'
+import { BackGroundMusic } from "./runtime/BackgroundMusic.js";
+import bgm from '../audio/bgm.mp3'
 
 // 游戏主函数、入口函数
 export class Main {
@@ -13,7 +13,7 @@ export class Main {
     this.canvas = new Canvas()
     this.ctx = this.canvas.ctx
     
-    // this.bgmAudio = new BackGroundMusic(bgm)
+    this.bgmAudio = new BackGroundMusic(bgm)
     this.dataStore = DataStore.getInstance()
     this.camera = Camera.getInstance()
     this.resourceLoader = new ResourceLoader()
@@ -36,7 +36,7 @@ export class Main {
     this.dataStore.put('background', BackGround).put('hero', Hero).put('bullets',[]).put('enemies',[])
     this.camera.isGamerOver = false
     this.camera.run()
-    // this.bgmAudio.play()
+    this.bgmAudio.play()
     this.bindEvent()
   }
 

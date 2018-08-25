@@ -1,8 +1,7 @@
 const path = require('path')
-const webpack = require('C:/Users/pc/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/webpack')
-const HtmlWebpackPlugin = require("C:/Users/pc/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/html-webpack-plugin")
-const cleanWebpackPlugin = require('C:/Users/pc/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/clean-webpack-plugin')
-const MiniCssExtractPlugin = require('C:/Users/pc/AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/mini-css-extract-plugin')
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const cleanWebpackPlugin = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const base = {
   entry: path.resolve(__dirname, './src/index.js'),
   output: {
@@ -47,25 +46,13 @@ const base = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+          name: 'media/[name].[hash:7].[ext]'
         }
-      },
+      }
       
     ]
   },
-  // optimization:{
-  //   splitChunks: {
-  //     cacheGroups: {
-  //       vendor: {   // 抽离第三方插件
-  //           test: /node_modules/,   // 指定是node_modules下的第三方包
-  //           chunks: 'initial',
-  //           name: 'vendor',  // 打包后的文件名，任意命名    
-  //           // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
-  //           priority: 10    
-  //       }
-  //     }
-  //   }
-  // },
+
   plugins:[
     new MiniCssExtractPlugin({
       filename: "[name].css",
