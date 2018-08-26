@@ -84,7 +84,6 @@ export class Camera {
                 enemyBorder.top <= heroBorder.bottom &&
                 enemyBorder.bottom >= heroBorder.top
             ) {
-                console.log(123)
                 this.isGameOver = true
             }
         }
@@ -100,11 +99,13 @@ export class Camera {
                 const enemyBorder = enemy.border()
                 if (bulletBorder.right >= enemyBorder.left &&
                     bulletBorder.left <= enemyBorder.right &&
-                    bulletBorder.top <= enemyBorder.bottom
+                    bulletBorder.top >= enemyBorder.bottom &&
+                    bulletBorder.bottom <= enemyBorder.top
                 ) {
                     enemies.splice(j, 1)
-                    bullets.splice(i, 1)
-                    this.dataStore.get('boom').draw(enemies.srcX, enemies.cX, enemies.cY)
+                        //bullets.splice(i, 1)
+                    this.dataStore.get('boom').draw(enemy.cX, enemy.cY)
+                    console.log(this.dataStore.get('boom'))
                     this.boomAudio.shootPlay()
                     break
                 }
@@ -129,17 +130,17 @@ export class Camera {
 
     run() {
         if (this.isGameOver) {
+
             cancelAnimationFrame(this.rafId)
 
         } else {
-            this.frame++
-                const background = this.dataStore.get('background')
+
+            this.frame += 1
+            const background = this.dataStore.get('background')
             const bullets = this.dataStore.get('bullets')
             const enemies = this.dataStore.get('enemies')
-
-
             background.draw()
-            if (this.frame % 30 === 0) {
+            if (this.frame % 20 === 0) {
                 this.createBullet()
                 this.bulletAudio.shootPlay()
             }
