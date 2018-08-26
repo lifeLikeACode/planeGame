@@ -6,13 +6,17 @@ export class Enemies extends Sprite {
         const left = 0 + image.width / 2
         const right = window.innerWidth
         const enemyX = Math.random() * (right - left)
+        const clippingLeft = 40
+        const clippingRight = 40
+        const clippingTop = 42
+        const clippingBottom = 40
 
         const scale = 2
         super(image,
-            0, 0,
-            image.width, image.height,
+            clippingLeft, clippingTop,
+            image.width - clippingLeft - clippingRight, image.height - clippingTop - clippingBottom,
             enemyX, 0,
-            image.width / scale, -image.height / scale
+            (image.width - clippingLeft - clippingRight) / scale, -(image.height - clippingTop - clippingBottom) / scale
         )
         this.speedScale = Math.random() * (8 - 3) + 3
         this.speedMove = this.speedScale
