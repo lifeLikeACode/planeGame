@@ -10,18 +10,26 @@ export class Boom extends Sprite {
             0, 0,
             image.width / len, image.height
         )
-        this.index = -1
+        this.index = 0
+        this.interval = 1000
+        this.time = null
     }
-    draw(srcX, cX, cY) {
-        this.srcX = srcX
+    draw(cX, cY) {
+
+        const currentImage = this.image.width * this.index
         this.cX = cX
         this.cY = cY
-        this.index += 1
+        const self = this
+        this.time = setInterval(() => {
+            if (self.index < 6) {
+                self.index += 1
+                console.log(self.index, currentImage)
+                super.draw(this.image, currentImage, this.srcY, this.srcW, this.srcH, this.cX, this.cY, this.cWidth, this.cHeight)
+            } else {
+                clearInterval(this.time)
+            }
+        }, this.interval)
 
-        if (this.index < 6) {
-            console.log('bofangdonghua')
-            super.draw(this.image, this.srcX, this.srcY, this.srcW, this.srcH, this.cX, this.cY, this.cWidth, this.cHeight)
-        }
 
     }
 }
