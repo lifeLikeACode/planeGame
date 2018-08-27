@@ -23,7 +23,7 @@ export class Boom extends Sprite {
         this.time = setInterval(() => {
             if (self.index < 6) {
                 self.index += 1
-                console.log(self.index, currentImage)
+                    // console.log(self.index, currentImage)
                 super.draw(this.image, currentImage, this.srcY, this.srcW, this.srcH, this.cX, this.cY, this.cWidth, this.cHeight)
             } else {
                 clearInterval(this.time)

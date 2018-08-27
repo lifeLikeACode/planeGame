@@ -30,7 +30,7 @@ export class Camera {
         for (let i = 0; i < bullets.length; i++) {
             const bullet = bullets[i]
             const bulletBorder = bullet.border()
-            if (bulletBorder.top < wallBorder.top) {
+            if (bulletBorder.bottom < wallBorder.top) {
                 bullets.shift()
             }
         }
@@ -61,7 +61,7 @@ export class Camera {
         for (let i = 0; i < enemies.length; i++) {
             const enemy = enemies[i]
             const enemyBorder = enemy.border()
-            if (enemyBorder.bottom > wallBorder.bottom) {
+            if (enemyBorder.top > wallBorder.bottom) {
                 enemies.splice(i, 1)
             }
         }
@@ -78,13 +78,14 @@ export class Camera {
         for (let j = 0; j < enemies.length; j++) {
             const enemy = enemies[j]
             const enemyBorder = enemy.border()
-
-            if (enemyBorder.right >= heroBorder.left &&
-                enemyBorder.left <= heroBorder.right &&
-                enemyBorder.top <= heroBorder.bottom &&
-                enemyBorder.bottom >= heroBorder.top
-            ) {
-                this.isGameOver = true
+            if (enemy.isVisible) {
+                if (enemyBorder.right >= heroBorder.left &&
+                    enemyBorder.left <= heroBorder.right &&
+                    enemyBorder.top <= heroBorder.bottom &&
+                    enemyBorder.bottom >= heroBorder.top
+                ) {
+                    this.isGameOver = true
+                }
             }
         }
     }
@@ -97,17 +98,29 @@ export class Camera {
             for (let j = 0; j < enemies.length; j++) {
                 const enemy = enemies[j]
                 const enemyBorder = enemy.border()
+                this.dataStore.get('boom').draw(enemy.cX, enemy.cY)
                 if (bulletBorder.right >= enemyBorder.left &&
                     bulletBorder.left <= enemyBorder.right &&
-                    bulletBorder.top >= enemyBorder.bottom &&
-                    bulletBorder.bottom <= enemyBorder.top
+                    bulletBorder.top <= enemyBorder.bottom &&
+                    bulletBorder.bottom >= enemyBorder.top
                 ) {
-                    enemies.splice(j, 1)
-                        //bullets.splice(i, 1)
-                    this.dataStore.get('boom').draw(enemy.cX, enemy.cY)
-                    console.log(this.dataStore.get('boom'))
-                    this.boomAudio.shootPlay()
-                    break
+                    if (enemy.isVisible) {
+                        enemy.isVisible = false
+                        this.boomAudio.shootPlay()
+                        bullets.splice(i, 1)
+                        enemy.boom(() => {
+                            enemies.splice(j, 1)
+                        })
+
+                        // enemies.lenght
+                        // enemies.splice(j, 1)
+
+                        //this.dataStore.get('boom').draw(enemy.cX, enemy.cY)
+                        //console.log(this.dataStore.get('boom'))
+
+                        break
+                    }
+
                 }
             }
         }
@@ -120,12 +133,17 @@ export class Camera {
         this.enemiesCollisionHero()
     }
     createBullet() {
+        // if (!this.dataStore.get('bullets').length) {
         this.dataStore.get('bullets').push(new Bullets())
+        this.bulletAudio.shootPlay()
+            // }
     }
 
     createEnemies() {
-
+        //if (!this.dataStore.get('enemies').length) {
         this.dataStore.get('enemies').push(new Enemies())
+            //}
+
     }
 
     run() {
@@ -142,13 +160,16 @@ export class Camera {
             background.draw()
             if (this.frame % 20 === 0) {
                 this.createBullet()
-                this.bulletAudio.shootPlay()
+
             }
             if (this.frame % 30 === 0) {
                 this.createEnemies()
             }
             enemies.forEach((enemy) => {
-                enemy.draw()
+                if (enemy.isVisible) {
+                    enemy.draw()
+                }
+
             })
             bullets.forEach((bullet) => {
                 bullet.draw()

@@ -37,7 +37,7 @@ export class Main {
         this.dataStore.put('background', BackGround).put('hero', Hero).put('bullets', []).put('enemies', []).put('boom', Boom)
         this.camera.isGamerOver = false
         this.camera.run()
-        this.bgmAudio.play()
+            //this.bgmAudio.play()
         this.bindEvent()
     }
 
