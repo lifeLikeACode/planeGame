@@ -4,6 +4,7 @@ import { Enemies } from "./player/Enemies";
 import { BackGroundMusic } from "./runtime/BackgroundMusic.js";
 import bulletMusic from '../audio/bullet.mp3'
 import boomAudio from '../audio/boom.mp3'
+// import { Boom } from "./runtime/Boom";
 //控制游戏逻辑的函数
 export class Camera {
     constructor() {
@@ -30,7 +31,7 @@ export class Camera {
         for (let i = 0; i < bullets.length; i++) {
             const bullet = bullets[i]
             const bulletBorder = bullet.border()
-            if (bulletBorder.top < wallBorder.top) {
+            if (bulletBorder.bottom < wallBorder.top) {
                 bullets.shift()
             }
         }
@@ -61,7 +62,7 @@ export class Camera {
         for (let i = 0; i < enemies.length; i++) {
             const enemy = enemies[i]
             const enemyBorder = enemy.border()
-            if (enemyBorder.bottom > wallBorder.bottom) {
+            if (enemyBorder.top + enemy.cHeight > wallBorder.bottom) {
                 enemies.splice(i, 1)
             }
         }
@@ -86,6 +87,7 @@ export class Camera {
             ) {
                 this.isGameOver = true
             }
+            
         }
     }
     bulletCollisionEnemies() {
@@ -103,9 +105,7 @@ export class Camera {
                     bulletBorder.bottom <= enemyBorder.top
                 ) {
                     enemies.splice(j, 1)
-                        //bullets.splice(i, 1)
-                    this.dataStore.get('boom').draw(enemy.cX, enemy.cY)
-                    console.log(this.dataStore.get('boom'))
+                    bullets.splice(i, 1)
                     this.boomAudio.shootPlay()
                     break
                 }
@@ -155,7 +155,6 @@ export class Camera {
             })
 
             this.dataStore.get('hero').draw()
-
 
             this.check()
             this.rafId = requestAnimationFrame(() => { this.run() })
