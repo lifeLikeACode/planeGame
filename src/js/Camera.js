@@ -109,12 +109,10 @@ export class Camera {
                 ) {
                     if (enemy.isVisible) {
                         enemy.isVisible = false
+                        enemy.isPlayAnimation = true
+                        enemy.startTime = new Date().getTime()
                         this.boomAudio.shootPlay()
                         bullets.splice(i, 1)
-                        enemy.boom(() => {
-                            enemies.splice(j, 1)
-                        })
-
                         break
                     }
 
@@ -161,12 +159,11 @@ export class Camera {
             }
             if (this.frame % 30 === 0) {
                 this.createEnemies()
+                
             }
+            
             enemies.forEach((enemy) => {
-                if (enemy.isVisible) {
-                    enemy.draw()
-                }
-
+                enemy.draw()
             })
             bullets.forEach((bullet) => {
                 bullet.draw()

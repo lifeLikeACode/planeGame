@@ -15,7 +15,7 @@ export class Bullets extends Sprite {
             bulletX, bulletY,
             image.width / scale, image.height / scale
         )
-        this.speedMove = 8
+        this.speedMove = 10
 
         //this.bulletFireY = bulletY
     }

@@ -25,7 +25,13 @@ export class Enemies extends Sprite {
         this.isVisible = true
         this.index = 0
         this.interval = 1000
-        this.time = Symbol(new Date())
+        this.timer = null
+        this.isPlayAnimation = false
+        this.boomImage = Sprite.getImage('boom')
+        this.startTime = null
+        this.currentTime = null
+        this.deltaTime = null
+        this.imageX = [0,80,80+91,80+91+90,80+91+90 + 81,80+91+90+81+79,80+91+90+81+79+70]
     }
 
     border() {
@@ -38,21 +44,23 @@ export class Enemies extends Sprite {
     }
 
     boom(cb) {
-        if (this.isVisible) {
-            this.image = Sprite.getImage('boom')
-            const currentImage = this.image.width * this.index
-            const self = this
-            this.time = setInterval(() => {
-                if (self.index < 6) {
-                    self.index += 1
-                    super.draw(this.image, currentImage, 0, this.image.width / 6, this.image.height, this.cX, this.cY, this.cWidth, this.cHeight)
-                } else {
-                    clearInterval(this.time)
-                    cb && cb()
-                }
-            }, this.interval)
+            
+            
+           
+            // if (this.index < 6) {
+            //     console.log(this.index)
+            //     let currentImage = this.boomImage.width * this.index
+            //     this.cY += this.speedMove
+            //     //this.index += .1
+            //     super.draw(this.boomImage, this.imageX[this.index], 0, this.boomImage.width / 6, this.boomImage.height, this.cX, this.cY, this.cWidth, this.cHeight)
+            // } else {
 
-        }
+            //     this.isPlayAnimation = false
+            //     clearInterval(this.timer)
+                
+            //     console.log('clear')
+            //     cb && cb()
+            // }
     }
     draw() {
         if (this.isVisible) {
@@ -63,6 +71,27 @@ export class Enemies extends Sprite {
                 this.cX, this.cY,
                 this.cWidth, this.cHeight
             )
+        }else{
+            //let currentImage = this.boomImage.width * this.index
+            if(this.isPlayAnimation){
+                
+                this.currentTime = new Date().getTime()
+                this.deltaTime += (this.currentTime - this.startTime)
+                if(this.deltaTime >= 300) {
+                    // console.log('执行index++操作',this.deltaTime,this.index,this.boomImage.width  / 6 * this.index)
+                    this.deltaTime = 0
+                    if (this.index < 6) {
+                        this.index += 1
+                        //this.cY += this.speedMove
+                    } else {
+                        this.isPlayAnimation = false
+                    }
+                    this.startTime = this.currentTime
+                }
+            }
+            this.cY += this.speedMove
+            super.draw(this.boomImage, this.imageX[this.index], 0, this.boomImage.width / 6, this.boomImage.height, this.cX, this.cY, this.boomImage.width / 6 / 2, this.boomImage.height / 2)
+            
         }
 
     }
