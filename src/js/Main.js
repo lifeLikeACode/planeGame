@@ -7,6 +7,7 @@ import { Hero } from "./player/Hero.js";
 import { BackGroundMusic } from "./runtime/BackgroundMusic.js";
 import bgm from '../audio/bgm.mp3'
 import { Boom } from "./runtime/Boom.js";
+import { Score } from "./player/Score.js";
 
 // 游戏主函数、入口函数
 export class Main {
@@ -34,7 +35,7 @@ export class Main {
 
     //初始化游戏
     init() {
-        this.dataStore.put('background', BackGround).put('hero', Hero).put('bullets', []).put('enemies', []).put('boom', Boom)
+        this.dataStore.put('background', BackGround).put('hero', Hero).put('bullets', []).put('enemies', []).put('boom', Boom).put('score', Score)
         this.camera.isGamerOver = false
         this.camera.run()
             //this.bgmAudio.play()

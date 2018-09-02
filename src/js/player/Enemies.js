@@ -20,18 +20,17 @@ export class Enemies extends Sprite {
             (image.width - clippingLeft - clippingRight) / scale, (image.height - clippingTop - clippingBottom) / scale
         )
         this.speedScale = Math.random() * (8 - 3) + 3
+        this.blood = 3
         this.speedMove = this.speedScale
         this.moveY = 0
         this.isVisible = true
         this.index = 0
-        this.interval = 1000
-        this.timer = null
         this.isPlayAnimation = false
         this.boomImage = Sprite.getImage('boom')
         this.startTime = null
         this.currentTime = null
         this.deltaTime = null
-        this.imageX = [0,80,80+91,80+91+90,80+91+90 + 81,80+91+90+81+79,80+91+90+81+79+70]
+        this.imageX = [0, 80, 170, 260, 339, 415]
     }
 
     border() {
@@ -42,26 +41,6 @@ export class Enemies extends Sprite {
             bottom: this.cY + this.cHeight
         }
     }
-
-    boom(cb) {
-            
-            
-           
-            // if (this.index < 6) {
-            //     console.log(this.index)
-            //     let currentImage = this.boomImage.width * this.index
-            //     this.cY += this.speedMove
-            //     //this.index += .1
-            //     super.draw(this.boomImage, this.imageX[this.index], 0, this.boomImage.width / 6, this.boomImage.height, this.cX, this.cY, this.cWidth, this.cHeight)
-            // } else {
-
-            //     this.isPlayAnimation = false
-            //     clearInterval(this.timer)
-                
-            //     console.log('clear')
-            //     cb && cb()
-            // }
-    }
     draw() {
         if (this.isVisible) {
             this.cY += this.speedMove
@@ -71,27 +50,31 @@ export class Enemies extends Sprite {
                 this.cX, this.cY,
                 this.cWidth, this.cHeight
             )
-        }else{
-            //let currentImage = this.boomImage.width * this.index
-            if(this.isPlayAnimation){
-                
+        } else {
+            if (this.isPlayAnimation) {
+
                 this.currentTime = new Date().getTime()
                 this.deltaTime += (this.currentTime - this.startTime)
-                if(this.deltaTime >= 300) {
-                    // console.log('执行index++操作',this.deltaTime,this.index,this.boomImage.width  / 6 * this.index)
+                if (this.deltaTime >= 300) {
                     this.deltaTime = 0
                     if (this.index < 6) {
                         this.index += 1
-                        //this.cY += this.speedMove
                     } else {
                         this.isPlayAnimation = false
                     }
                     this.startTime = this.currentTime
                 }
             }
+            let cWidth = 0
+            if (this.index === 0) {
+                cWidth = this.imageX[this.index] / 2
+            } else {
+                cWidth = (this.imageX[this.index] - this.imageX[this.index - 1]) / 2
+            }
+
             this.cY += this.speedMove
-            super.draw(this.boomImage, this.imageX[this.index], 0, this.boomImage.width / 6, this.boomImage.height, this.cX, this.cY, this.boomImage.width / 6 / 2, this.boomImage.height / 2)
-            
+            super.draw(this.boomImage, this.imageX[this.index], 0, this.boomImage.width / 6, this.boomImage.height, this.cX, this.cY, cWidth, this.boomImage.height / 2)
+
         }
 
     }

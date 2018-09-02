@@ -1,9 +1,10 @@
 import { DataStore } from "./base/DataStore";
 import { Bullets } from "./player/Bullets";
 import { Enemies } from "./player/Enemies";
-import { BackGroundMusic } from "./runtime/BackgroundMusic.js";
+import { BackGroundMusic } from "./runtime/BackgroundMusic";
 import bulletMusic from '../audio/bullet.mp3'
 import boomAudio from '../audio/boom.mp3'
+// import { Score } from "./player/Score";
 // import { Boom } from "./runtime/Boom";
 //控制游戏逻辑的函数
 export class Camera {
@@ -62,7 +63,7 @@ export class Camera {
         for (let i = 0; i < enemies.length; i++) {
             const enemy = enemies[i]
             const enemyBorder = enemy.border()
-            if (enemyBorder.top + enemy.cHeight  > wallBorder.bottom) {
+            if (enemyBorder.top + enemy.cHeight > wallBorder.bottom) {
 
                 enemies.splice(i, 1)
             }
@@ -89,12 +90,13 @@ export class Camera {
                     this.isGameOver = true
                 }
             }
-            
+
         }
     }
     bulletCollisionEnemies() {
         const enemies = this.dataStore.get('enemies')
         const bullets = this.dataStore.get('bullets')
+        const score = this.dataStore.get('score')
         for (let i = 0; i < bullets.length; i++) {
             const bullet = bullets[i]
             const bulletBorder = bullet.border()
@@ -108,6 +110,12 @@ export class Camera {
                     bulletBorder.bottom >= enemyBorder.top
                 ) {
                     if (enemy.isVisible) {
+                        score.flag = true
+                        if (score.flag) {
+                            score.number += 1
+                            score.flag = false
+                        }
+
                         enemy.isVisible = false
                         enemy.isPlayAnimation = true
                         enemy.startTime = new Date().getTime()
@@ -152,23 +160,26 @@ export class Camera {
             const background = this.dataStore.get('background')
             const bullets = this.dataStore.get('bullets')
             const enemies = this.dataStore.get('enemies')
+            const score = this.dataStore.get('score')
             background.draw()
+
+
             if (this.frame % 20 === 0) {
                 this.createBullet()
 
             }
             if (this.frame % 30 === 0) {
                 this.createEnemies()
-                
+
             }
-            
+
             enemies.forEach((enemy) => {
                 enemy.draw()
             })
             bullets.forEach((bullet) => {
                 bullet.draw()
             })
-
+            score.draw()
             this.dataStore.get('hero').draw()
 
             this.check()

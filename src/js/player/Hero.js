@@ -5,7 +5,7 @@ export class Hero extends Sprite {
     constructor() {
         const image = Sprite.getImage('hero')
             //飞机在屏幕中的缩放比例
-        const scale = 5
+        const scale = 4
 
         super(image,
             0, 0,
