@@ -1,12 +1,17 @@
+import bg from '../../res/bg.jpg'
+import bullet from '../../res/bullet.png'
+import enemy from '../../res/enemy.png'
+import hero from '../../res/hero.png'
+import boom from '../../res/boom.png'
 export class Resource {
     constructor() {
 
         this.imgList = [
-            ['background', 'src/res/bg.jpg'],
-            ['bullet', 'src/res/bullet.png'],
-            ['enemies', 'src/res/enemy.png'],
-            ['hero', 'src/res/hero.png'],
-            ['boom', 'src/res/boom.png']
+            ['background', bg],
+            ['bullet', bullet],
+            ['enemies', enemy],
+            ['hero', hero],
+            ['boom', boom]
         ]
     }
 }

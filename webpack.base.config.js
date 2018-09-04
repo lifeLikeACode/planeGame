@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const base = {
   entry: path.resolve(__dirname, './src/index.js'),
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -39,7 +39,11 @@ const base = {
       },
       {
         test: /\.(jpg|jpeg|png|gif)$/,
-        loader: 'url-loader'
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'images/[name].[hash:base64:5].[ext]'
+        }
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
